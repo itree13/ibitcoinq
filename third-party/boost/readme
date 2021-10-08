@@ -1,0 +1,4 @@
+boost_1_76_0.tar.gz:
+--- build on windows ----
+bootstrap.bat
+b2 release debug threading=multi runtime-link=static --toolset=msvc stage --prefix=..\..\..\out install
