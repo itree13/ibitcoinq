@@ -1,6 +1,6 @@
 ﻿#include "command.h"
-#include "../util.h"
-#include "../json.h"
+#include "../utils/utils.h"
+#include "../utils/json.h"
 #include "../crypto/base64.h"
 #include <iostream>
 #include <iomanip>

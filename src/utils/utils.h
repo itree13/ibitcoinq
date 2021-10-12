@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "type.h"
+#include "../type.h"
 #include <vector>
 
 std::string calcHmacSHA256(const std::string& msg, const std::string& decoded_key);

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "type.h"
-#include "socks/uri.hpp"
+#include "../type.h"
+#include "../socks/uri.hpp"
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
 #include <boost/beast/ssl.hpp>

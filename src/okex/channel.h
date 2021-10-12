@@ -1,8 +1,8 @@
 ﻿#pragma once
 
 #include "command.h"
-#include "../ws_session.h"
-#include "../concurrent_queue.h"
+#include "../utils/ws_session.h"
+#include "../utils/concurrent_queue.h"
 #include <thread>
 #include <functional>
 #include <deque>

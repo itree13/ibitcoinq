@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "type.h"
+#include "../type.h"
 #include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>
 #include <boost/beast/ssl.hpp>

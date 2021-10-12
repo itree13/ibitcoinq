@@ -1,7 +1,7 @@
 ﻿#include "private_channel.h"
-#include "Command.h"
+#include "command.h"
 #include "restapi.h"
-#include "../logger.h"
+#include "../utils/logger.h"
 
 extern std::string g_api_key;
 extern std::string g_passphrase;
