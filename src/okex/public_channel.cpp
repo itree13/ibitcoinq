@@ -2,47 +2,51 @@
 #include "command.h"
 #include "../utils/logger.h"
 
-extern std::string g_ticket;
+namespace okex {
 
-void PublicChannel::onConnected() {
-    LOG(info) << "public channel connected.";
 
-    auto req = Command::makeSubscribeInstrumentsChannel("SWAP");
+    void PublicChannel::onConnected() {
+        LOG(info) << "public channel connected.";
 
-    LOG(debug) << ">> subscribe instruments. " << req.data;
+        auto req = Command::makeSubscribeInstrumentsChannel("SWAP");
 
-    this->sendCmd(std::move(req),
-        [this](Command::Response& resp) {
-            if (resp.code == 0)
-                LOG(debug) << "<< subscribe ok. " << resp.data;
-            else
-                throw std::runtime_error("<< subscribe failed! " + resp.msg);
-        }
-    );
+        LOG(debug) << ">> subscribe instruments. " << req.data;
 
-    req = Command::makeSubscribeTradesChannel(g_ticket);
+        this->sendCmd(std::move(req),
+            [this](Command::Response& resp) {
+                if (resp.code == 0)
+                    LOG(debug) << "<< subscribe ok. " << resp.data;
+                else
+                    throw std::runtime_error("<< subscribe failed! " + resp.msg);
+            }
+        );
 
-    LOG(debug) << ">> subscribe trades. " << req.data;
+        req = Command::makeSubscribeTradesChannel(g_ticket);
 
-    this->sendCmd(std::move(req),
-        [this](Command::Response& resp) {
-            if (resp.code == 0)
-                LOG(debug) << "<< subscribe ok. " << resp.data;
-            else
-                throw std::runtime_error("<< subscribe failed! " + resp.msg);
-        }
-    );
+        LOG(debug) << ">> subscribe trades. " << req.data;
 
-    req = Command::makeSubscribeStatusChannel();
+        this->sendCmd(std::move(req),
+            [this](Command::Response& resp) {
+                if (resp.code == 0)
+                    LOG(debug) << "<< subscribe ok. " << resp.data;
+                else
+                    throw std::runtime_error("<< subscribe failed! " + resp.msg);
+            }
+        );
 
-    LOG(debug) << ">> subscribe status. " << req.data;
+        req = Command::makeSubscribeStatusChannel();
 
-    this->sendCmd(std::move(req),
-        [this](Command::Response& resp) {
-            if (resp.code == 0)
-                LOG(debug) << "<< subscribe ok. " << resp.data;
-            else
-                throw std::runtime_error("<< subscribe failed! " + resp.msg);
-        }
-    );
+        LOG(debug) << ">> subscribe status. " << req.data;
+
+        this->sendCmd(std::move(req),
+            [this](Command::Response& resp) {
+                if (resp.code == 0)
+                    LOG(debug) << "<< subscribe ok. " << resp.data;
+                else
+                    throw std::runtime_error("<< subscribe failed! " + resp.msg);
+            }
+        );
+    }
+
+
 }

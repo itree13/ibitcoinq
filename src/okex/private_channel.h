@@ -2,16 +2,20 @@
 
 #include "channel.h"
 
+namespace okex {
 
-class PrivateChannel : public Channel {
-public:
-    using Channel::Channel;
+    class PrivateChannel : public Channel {
+    public:
+        using Channel::Channel;
 
-protected:
-    void onConnected() override;
+    protected:
+        void onConnected() override;
 
-private:
+    private:
 
-};
+    };
 
-extern std::shared_ptr<PrivateChannel> g_private_channel;
+    extern std::shared_ptr<PrivateChannel> g_private_channel;
+
+
+}
