@@ -74,7 +74,7 @@ namespace okex {
     } */
     bool RestApi::setLeverage(int lever, std::string* errmsg) {
         rapidjson::Document doc(rapidjson::kObjectType);
-        doc.AddMember("instId", g_ticket, doc.GetAllocator());
+        doc.AddMember("instId", g_client.settings().ticket, doc.GetAllocator());
         doc.AddMember("lever", std::to_string(lever), doc.GetAllocator());
         doc.AddMember("mgnMode", "cross", doc.GetAllocator());
         std::string reqdata = toString(doc);
@@ -165,7 +165,7 @@ namespace okex {
     bool RestApi::checkOrderFilled() {
         std::deque<std::pair<std::string, std::string> > params;
         params.emplace_back("instType", "SWAP");
-        params.emplace_back("instId", g_ticket);
+        params.emplace_back("instId", g_client.settings().ticket);
         params.emplace_back("limit", "50");
 
         resp_type resp;
@@ -226,10 +226,10 @@ namespace okex {
             req.set(http::field::user_agent, "ibitcoin2waygrid");
 
             req.set(http::field::content_type, "application/json");
-            req.set("OK-ACCESS-KEY", g_api_key);
-            req.set("OK-ACCESS-PASSPHRASE", g_passphrase);
+            req.set("OK-ACCESS-KEY", g_client.settings().api_key);
+            req.set("OK-ACCESS-PASSPHRASE", g_client.settings().passphrase);
 
-            if (g_is_simu)
+            if (g_client.settings().server_info.is_simu)
                 req.set("x-simulated-trading", std::to_string(1));
 
             time_t now;
@@ -237,7 +237,7 @@ namespace okex {
             char buf[64];
             strftime(buf, sizeof buf, "%FT%TZ", std::gmtime(&now));
             std::string timestamp = buf;
-            auto sign = BASE64Encode(calcHmacSHA256(timestamp + verbstr + path + reqdata, g_secret));
+            auto sign = BASE64Encode(calcHmacSHA256(timestamp + verbstr + path + reqdata, g_client.settings().secret));
 
             req.set("OK-ACCESS-SIGN", sign);
             req.set("OK-ACCESS-TIMESTAMP", timestamp);
@@ -264,7 +264,7 @@ namespace okex {
         while (true) {
             try {
                 std::deque<std::pair<std::string, std::string> > params;
-                params.emplace_back("instId", g_ticket);
+                params.emplace_back("instId", g_client.settings().ticket);
                 params.emplace_back("bar", bar);
 
                 if (after_time) {
