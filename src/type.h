@@ -19,6 +19,10 @@ using std::string;
 
 #define UNUSED(expr) do { (void)(expr); } while (0)
 
+#define DISABLE_COPY(classtype) \
+    classtype(const classtype&) = delete; \
+    classtype& operator=(const classtype&) = delete;
+
 
 template<typename CallableT>
 struct ScopeExit final {
