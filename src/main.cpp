@@ -1,4 +1,5 @@
 #include "utils/logger.h"
+#include "okex/client.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -13,6 +14,11 @@ int main() {
     // prevent computer to sleep
     ::SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED);
 #endif
+
+    okex::Client client;
+    if (!client.start("setting.conf"))
+        return -1;
+
 
 
     return 0;
