@@ -45,6 +45,5 @@ namespace okex {
         std::string socks_proxy_;
     };
 
-    extern std::shared_ptr<RestApi> g_restapi;
 
 }

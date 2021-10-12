@@ -5,10 +5,9 @@
 
 namespace okex {
 
-    Settings g_settings;
 
-    bool Settings::load(const std::string& filepath) {
-        auto setting_filename = (boost::dll::program_location().parent_path() / filepath).string();
+    bool Settings::load(const std::string& conf_file) {
+        auto setting_filename = (boost::dll::program_location().parent_path() / conf_file).string();
         try {
             std::ifstream in(setting_filename);
             if (!in.is_open()) {

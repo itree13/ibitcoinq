@@ -44,10 +44,9 @@ namespace okex {
             std::string restapi_host;
         } server_info;
 
-        bool load(const std::string& filepath);
+        bool load(const std::string& conf_file);
     };
 
-    extern Settings g_settings;
 
 
 }

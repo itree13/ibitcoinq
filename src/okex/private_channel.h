@@ -15,7 +15,5 @@ namespace okex {
 
     };
 
-    extern std::shared_ptr<PrivateChannel> g_private_channel;
-
 
 }

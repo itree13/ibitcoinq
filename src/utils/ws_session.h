@@ -1,10 +1,10 @@
 ﻿#pragma once
 
 #include "../type.h"
+#include "socks/uri.hpp"
 #include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>
 #include <boost/beast/ssl.hpp>
-#include "socks/uri.hpp"
 #include <condition_variable>
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
