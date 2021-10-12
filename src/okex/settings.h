@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 
 #include "../type.h"
 
 namespace okex {
 
-    //ÊµÅÌAPI½»Ò×µØÖ·ÈçÏÂ£º
+//å®ç›˜APIäº¤æ˜“åœ°å€å¦‚ä¸‹ï¼š
 
 #define REST_API_HOST               "www.okex.com"
 #define WSS_HOST                    "ws.okex.com"
@@ -12,14 +12,14 @@ namespace okex {
 #define WSS_PUBLIC_CHANNEL          "/ws/v5/public"
 #define WSS_PRIVATE_CHANNEL         "/ws/v5/private"
 
-// AWS µØÖ·ÈçÏÂ£º
+// AWS åœ°å€å¦‚ä¸‹ï¼š
 #define AWS_REST_API_HOST           "aws.okex.com"
 #define AWS_WSS_HOST                "wsaws.okex.com"
 #define AWS_WSS_PORT                "8443"
 #define AWS_WSS_PUBLIC_CHANNEL      "/ws/v5/public"
 #define AWS_WSS_PRIVATE_CHANNEL     "/ws/v5/private"
 
-// Ä£ÄâÅÌAPI½»Ò×µØÖ·ÈçÏÂ£º
+// æ¨¡æ‹Ÿç›˜APIäº¤æ˜“åœ°å€å¦‚ä¸‹ï¼š
 #define SIMU_REST_API_HOST          "www.okex.com"
 #define SIMU_WSS_HOST               "wspap.okex.com"
 #define SIMU_WSS_PORT               "8443"

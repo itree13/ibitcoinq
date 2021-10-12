@@ -23,7 +23,7 @@ class TimerWheel {
 public:
 	enum NodeState { NONE, READY, RUNNING, CANCELLING };
 
-	class NDIOT_DDS_API NodeBase {
+	class NodeBase {
 		friend class Wheel;
 		friend class TimerWheel;
 		NodeBase* node_prev_ = nullptr;
