@@ -7,3 +7,6 @@ public:
 
 
 };
+
+
+extern TradesManager g_trades_man;
