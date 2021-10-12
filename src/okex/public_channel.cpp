@@ -1,4 +1,5 @@
 ﻿#include "public_channel.h"
+#include "client.h"
 #include "command.h"
 #include "../utils/logger.h"
 
@@ -21,7 +22,7 @@ namespace okex {
             }
         );
 
-        req = Command::makeSubscribeTradesChannel(g_ticket);
+        req = Command::makeSubscribeTradesChannel(g_client.settings().ticket);
 
         LOG(debug) << ">> subscribe trades. " << req.data;
 

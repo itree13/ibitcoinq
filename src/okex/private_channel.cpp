@@ -1,6 +1,6 @@
 ﻿#include "private_channel.h"
+#include "client.h"
 #include "command.h"
-#include "restapi.h"
 #include "../utils/logger.h"
 
 namespace okex {

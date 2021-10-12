@@ -1,5 +1,5 @@
 ﻿#include "rest_api.h"
-#include "settings.h"
+#include "client.h"
 #include "../utils/crypto/base64.h"
 #include "../utils/utils.h"
 #include "../utils/json.h"
@@ -126,7 +126,7 @@ namespace okex {
 
     bool RestApi::closePosition(OrderPosSide pos_side) {
         rapidjson::Document doc(rapidjson::kObjectType);
-        doc.AddMember("instId", g_ticket, doc.GetAllocator());
+        doc.AddMember("instId", g_client.settings().ticket, doc.GetAllocator());
         doc.AddMember("mgnMode", "cross", doc.GetAllocator());
 
         std::string pos_side_str;
