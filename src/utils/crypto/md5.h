@@ -6,7 +6,7 @@
 #ifndef BASE_MD5_H_
 #define BASE_MD5_H_
 
-#include "../type.h"
+#include "../../type.h"
 #include <boost/utility/string_ref.hpp>
 
 

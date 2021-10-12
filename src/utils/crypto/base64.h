@@ -1,7 +1,7 @@
 ﻿#ifndef _BASE_BASE64_H_
 #define _BASE_BASE64_H_
   
-#include "../type.h"
+#include "../../type.h"
 #include <boost/utility/string_ref.hpp>
 
 

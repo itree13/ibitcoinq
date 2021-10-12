@@ -1,7 +1,7 @@
 ﻿#ifndef _CONCURRENT_QUEUE_H_
 #define _CONCURRENT_QUEUE_H_
 
-#include "type.h"
+#include "../type.h"
 #include <deque>
 #include <mutex>
 #include <condition_variable>
