@@ -14,10 +14,10 @@ namespace okex {
 
         public_channel_ = std::make_shared<PublicChannel>(ioc_, false, settings_.host, settings_.port, settings_.public_path, settings_.socks_proxy);
         private_channel_ = std::make_shared<PrivateChannel>(ioc_, true, settings_.host, settings_.port, settings_.private_path, settings_.socks_proxy);
-        restapi_ = std::make_shared<RestApi>(ioc, restapi_host, "443", socks_proxy);
+        rest_api_ = std::make_shared<RestApi>(ioc_, settings_.restapi_host, "443", settings_.socks_proxy);
 
-        g_public_channel->waitConnected();
-        g_private_channel->waitConnected();
+        public_channel_->waitConnected();
+        private_channel_->waitConnected();
 
         io_thread_.reset(new std::thread([&]() { ioc_.run(); });
 

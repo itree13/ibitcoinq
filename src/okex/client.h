@@ -1,7 +1,7 @@
 #include "settings.h"
 #include "public_channel.h"
 #include "private_channel.h"
-#include "restapi.h"
+#include "rest_api.h"
 #include <thread>
 
 namespace okex {
