@@ -1,4 +1,5 @@
 ﻿#include "command.h"
+#include "../trades_manager.h"
 #include "../utils/utils.h"
 #include "../utils/json.h"
 #include "../utils/crypto/base64.h"
@@ -511,7 +512,7 @@ namespace okex {
                             for (auto itrbal = bal.Begin(); itrbal != bal.End(); ++itrbal) {
                                 auto& val = *itrbal;
                                 std::string ccy = val["ccy"].GetString();
-                                UserData::Balance::BalVal balval;
+                                Balance::BalVal balval;
                                 balval.eq = val["eq"].GetString();
                                 balval.upl = val["upl"].GetString();
                                 balval.avail_eq = val["availEq"].GetString();
