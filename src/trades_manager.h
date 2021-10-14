@@ -98,6 +98,8 @@ public:
 
     void updatePublicTradesData(PublicTradesData&& data);
 
+    void updateOrderStatus(const std::string& clordid, OrderStatus status, const std::string& fill_fx = "");
+
 
 private:
     std::recursive_mutex mutex_;

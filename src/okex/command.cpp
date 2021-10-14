@@ -489,10 +489,9 @@ namespace okex {
                             if (scode == 50013 || scode == 50011 || scode == 50001)
                                 ret = -2;
                             else if (!clordid.empty() && scode != 0 && 51016 != scode) {// 51016:clOrdId重复
-                                g_user_data.removeFailedGridOrder(clordid);
+                                g_trades_man.updateOrderStatus(clordid, OrderStatus::Failure);
                             }
                         }
-                        g_user_data.updateGrid();
                     }
                 } else if (resp.op == "cancel-order" || resp.op == "batch-cancel-orders") {
 
@@ -609,25 +608,7 @@ namespace okex {
                             }
 
                             if (!clordid.empty()) {
-                                g_user_data.lock();
-                                auto scoped_exit = make_scope_exit([] { g_user_data.unlock(); });
-
-                                for (auto& grid : g_user_data.grid_strategy_.grids) {
-                                    for (auto& ordersq : grid.orders_queue) {
-                                        for (auto& order : ordersq.orders) {
-                                            if (order.order_data.clordid == clordid) {
-                                                order.order_status = order_state;
-                                                if (order_state == OrderStatus::Canceled) {
-                                                    order.order_data.clordid.clear();
-                                                } else if (order_state == OrderStatus::Filled) {
-                                                    order.fill_px = fill_px;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                g_user_data.positive_feedback_strategy_.setOrderState(clordid, order_state, fill_px, pnl, fee);
+                                g_trades_man.updateOrderStatus(clordid, order_state, fill_px);
                             }
 
                             o << "  - " << ord_id << " " << clordid << " " << inst_id << "  " << inst_type << " " << state << " \t" << toDateTimeStr(utime) << std::endl;
@@ -645,16 +626,12 @@ namespace okex {
                                     ofilledlog << " \t" << std::showpos << std::fixed << std::setprecision(1) << fprofit << std::noshowpos;
 
                                     ofilledlog << " \t[" << getCliOrdIdNumber(clordid) << "] \t" << toDateTimeStr(utime);
-                                    g_user_data.filled_history_log_.push_back(ofilledlog.str());
-                                    if (g_user_data.filled_history_log_.size() > 100)
-                                        g_user_data.filled_history_log_.pop_front();
                                     LOG(info) << ofilledlog.str();
                                 }
                             }
                             o << "    total: \t" << acc_fill_sz << " \t" << avg_px << " \tfee: " << fee << std::endl;
                         }
                         LOG(debug) << o.str();
-                        g_user_data.updateGrid();
                     } else if (channel == "trades") {
                         for (auto itr = doc["data"].Begin(); itr != doc["data"].End(); ++itr) {
                             PublicTradesData info;

@@ -87,7 +87,8 @@ enum class OrderStatus {
     Canceled,
     Live,
     PartiallyFilled,
-    Filled
+    Filled,
+    Failure,
 };
 
 
