@@ -78,6 +78,15 @@ struct ProductInfo {
     }
 };
 
+struct PublicTradesData {
+    std::string inst_id;
+    std::string trade_id;
+    std::string px;
+    std::string sz;
+    std::string pos_side;
+    uint64_t time_msec;
+};
+
 
 class TradesManager {
 public:
@@ -86,6 +95,8 @@ public:
     void updatePosition(const std::string& pos_id, Position::PosData&& val);
 
     void updateProductInfo(const std::string& inst_id, ProductInfo::Info&& val);
+
+    void updatePublicTradesData(PublicTradesData&& data);
 
 
 private:

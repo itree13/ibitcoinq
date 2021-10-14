@@ -656,23 +656,20 @@ namespace okex {
                         LOG(debug) << o.str();
                         g_user_data.updateGrid();
                     } else if (channel == "trades") {
-                        g_user_data.lock();
-                        auto scoped_exit = make_scope_exit([] { g_user_data.unlock(); });
-
                         for (auto itr = doc["data"].Begin(); itr != doc["data"].End(); ++itr) {
-                            UserData::PublicTradesInfo::Info info;
+                            PublicTradesData info;
                             info.inst_id = (*itr)["instId"].GetString();
                             info.trade_id = (*itr)["tradeId"].GetString();
                             info.px = (*itr)["px"].GetString();
                             info.sz = (*itr)["sz"].GetString();
                             info.pos_side = (*itr)["side"].GetString();
-                            info.ts = std::strtoull((*itr)["ts"].GetString(), nullptr, 0);
+                            info.time_msec = std::strtoull((*itr)["ts"].GetString(), nullptr, 0);
+
+                            g_trades_man.updatePublicTradesData(std::move(info));
 
                             if (g_show_trades)
                                 std::cout << "  - " << info.inst_id << " \t" << info.pos_side << " \t"
                                 << info.sz << " \t" << info.px << "  \t" << toDateTimeStr(info.ts) << std::endl;
-
-                            g_user_data.putTradeData(std::move(info));
                         }
                     } else if (channel == "instruments") {
                         for (auto itr = doc["data"].Begin(); itr != doc["data"].End(); ++itr) {
