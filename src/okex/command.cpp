@@ -666,10 +666,6 @@ namespace okex {
                             info.time_msec = std::strtoull((*itr)["ts"].GetString(), nullptr, 0);
 
                             g_trades_man.updatePublicTradesData(std::move(info));
-
-                            if (g_show_trades)
-                                std::cout << "  - " << info.inst_id << " \t" << info.pos_side << " \t"
-                                << info.sz << " \t" << info.px << "  \t" << toDateTimeStr(info.ts) << std::endl;
                         }
                     } else if (channel == "instruments") {
                         for (auto itr = doc["data"].Begin(); itr != doc["data"].End(); ++itr) {

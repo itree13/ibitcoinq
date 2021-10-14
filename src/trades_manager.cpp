@@ -21,3 +21,11 @@ void TradesManager::updateProductInfo(const std::string& inst_id, ProductInfo::I
     std::lock_guard lock(mutex_);
     product_info_[inst_id] = std::move(val);
 }
+
+void TradesManager::updatePublicTradesData(PublicTradesData&& data) {
+    // TODO
+
+   /* if (g_show_trades)
+        std::cout << "  - " << info.inst_id << " \t" << info.pos_side << " \t"
+        << info.sz << " \t" << info.px << "  \t" << toDateTimeStr(info.ts) << std::endl;*/
+}
