@@ -503,10 +503,6 @@ namespace okex {
                     std::string channel = doc["arg"]["channel"].GetString();
 
                     if (channel == "account") {
-                        g_user_data.lock();
-                        auto scoped_exit = make_scope_exit([] { g_user_data.unlock(); });
-                        g_user_data.balance_.inited = true;
-
                         for (auto itr = doc["data"].Begin(); itr != doc["data"].End(); ++itr) {
                             auto& bal = (*itr)["details"];
                             for (auto itrbal = bal.Begin(); itrbal != bal.End(); ++itrbal) {
@@ -517,15 +513,13 @@ namespace okex {
                                 balval.upl = val["upl"].GetString();
                                 balval.avail_eq = val["availEq"].GetString();
                                 balval.cash_bal = val["cashBal"].GetString();
-                                g_user_data.balance_.balval[ccy] = balval;
+
+                                g_trades_man.updateBalance(ccy, std::move(balval));
                             }
                         }
                     } else if (channel == "positions") {
-                        g_user_data.lock();
-                        auto scoped_exit = make_scope_exit([] { g_user_data.unlock(); });
-
                         for (auto positr = doc["data"].Begin(); positr != doc["data"].End(); ++positr) {
-                            UserData::Position::PosData data;
+                            Position::PosData data;
 
                             data.pos_id = (*positr)["posId"].GetString();
                             data.inst_id = (*positr)["instId"].GetString();
@@ -538,10 +532,7 @@ namespace okex {
                             auto utime = (*positr)["uTime"].GetString();
                             data.utime_msec = std::strtoull(utime, nullptr, 0);
 
-                            if (data.pos == "0")
-                                g_user_data.position_.posval.erase(data.pos_id);
-                            else
-                                g_user_data.position_.posval[data.pos_id] = std::move(data);
+                            g_trades_man.updatePosition(data.pos_id, std::move(data));
                         }
                     } else if (channel == "balance_and_position") {
                         g_user_data.lock();

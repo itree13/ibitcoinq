@@ -1,4 +1,5 @@
-#include "utils/logger.h"
+ï»¿#include "utils/logger.h"
+#include "utils/utils.h"
 #include "utils/concurrent_queue.h"
 #include <map>
 #include <ostream>
@@ -11,7 +12,7 @@ struct Balance {
         std::string upl;
         std::string avail_eq;
     };
-    std::map<std::string, BalVal> balval;
+    std::map<std::string /* ccy */, BalVal> balval;
     bool inited = false;
 
     friend std::ostream& operator << (std::ostream& o, const Balance& t) {
@@ -80,13 +81,16 @@ struct ProductInfo {
 
 class TradesManager {
 public:
+    void updateBalance(const std::string& ccy, Balance::BalVal&& val);
+
+    void updatePosition(const std::string& pos_id, Position::PosData&& val);
 
 
 private:
     std::recursive_mutex mutex_;
-    Balance balance_;           // Óà¶î
-    Position position_;         // ²ÖÎ»
-    ProductInfo product_info_;  // ²úÆ·
+    Balance balance_;           // ä½™é¢
+    Position position_;         // ä»“ä½
+    ProductInfo product_info_;  // äº§å“
 };
 
 
