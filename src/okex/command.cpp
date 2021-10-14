@@ -535,26 +535,24 @@ namespace okex {
                             g_trades_man.updatePosition(data.pos_id, std::move(data));
                         }
                     } else if (channel == "balance_and_position") {
-                        g_user_data.lock();
-                        auto scoped_exit = make_scope_exit([] { g_user_data.unlock(); });
                         for (auto itr = doc["data"].Begin(); itr != doc["data"].End(); ++itr) {
                             std::string event_type = (*itr)["eventType"].GetString();
 
                             if (itr->HasMember("balData")) {
-                                g_user_data.balance_.inited = true;
                                 auto& bal_data = (*itr)["balData"];
                                 for (auto balitr = bal_data.Begin(); balitr != bal_data.End(); ++balitr) {
                                     std::string ccy = (*balitr)["ccy"].GetString();
-                                    UserData::Balance::BalVal balval;
+                                    Balance::BalVal balval;
                                     balval.cash_bal = (*balitr)["cashBal"].GetString();
-                                    g_user_data.balance_.balval[ccy] = balval;
+
+                                    g_trades_man.updateBalance(ccy, std::move(balval));
                                 }
                             }
 
                             if (itr->HasMember("posData")) {
                                 auto& pos_data = (*itr)["posData"];
                                 for (auto positr = pos_data.Begin(); positr != pos_data.End(); ++positr) {
-                                    UserData::Position::PosData data;
+                                    Position::PosData data;
 
                                     data.pos_id = (*positr)["posId"].GetString();
                                     data.inst_id = (*positr)["instId"].GetString();
@@ -567,10 +565,7 @@ namespace okex {
                                     auto utime = (*positr)["uTime"].GetString();
                                     data.utime_msec = std::strtoull(utime, nullptr, 0);
 
-                                    if (data.pos == "0")
-                                        g_user_data.position_.posval.erase(data.pos_id);
-                                    else
-                                        g_user_data.position_.posval[data.pos_id] = std::move(data);
+                                    g_trades_man.updatePosition(data.pos_id, std::move(data));
                                 }
                             }
                         }
