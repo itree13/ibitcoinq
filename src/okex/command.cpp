@@ -675,11 +675,8 @@ namespace okex {
                             g_user_data.putTradeData(std::move(info));
                         }
                     } else if (channel == "instruments") {
-                        g_user_data.lock();
-                        auto scoped_exit = make_scope_exit([] { g_user_data.unlock(); });
-
                         for (auto itr = doc["data"].Begin(); itr != doc["data"].End(); ++itr) {
-                            UserData::ProductInfo::Info info;
+                            ProductInfo::Info info;
                             info.inst_id = (*itr)["instId"].GetString();
                             info.inst_type = (*itr)["instType"].GetString();
                             info.lot_sz = (*itr)["lotSz"].GetString(); // 下单数量精度
@@ -689,7 +686,7 @@ namespace okex {
                             info.ct_multi = (*itr)["ctMult"].GetString(); // 合约乘数
                             info.settle_ccy = (*itr)["settleCcy"].GetString();
 
-                            g_user_data.public_product_info_.data[info.inst_id] = std::move(info);
+                            g_trades_man.updateProductInfo(info.inst_id, std::move(info));
                         }
                     } else if (channel == "status") {
                         for (auto itr = doc["data"].Begin(); itr != doc["data"].End(); ++itr) {

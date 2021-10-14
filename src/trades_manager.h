@@ -85,6 +85,8 @@ public:
 
     void updatePosition(const std::string& pos_id, Position::PosData&& val);
 
+    void updateProductInfo(const std::string& inst_id, ProductInfo::Info&& val);
+
 
 private:
     std::recursive_mutex mutex_;

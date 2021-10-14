@@ -16,3 +16,8 @@ void TradesManager::updatePosition(const std::string& pos_id, Position::PosData&
     else
         position_.posval[pos_id] == std::move(val);
 }
+
+void TradesManager::updateProductInfo(const std::string& inst_id, ProductInfo::Info&& val) {
+    std::lock_guard lock(mutex_);
+    product_info_[inst_id] = std::move(val);
+}
