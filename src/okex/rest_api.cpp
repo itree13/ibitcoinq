@@ -1,5 +1,6 @@
 ﻿#include "rest_api.h"
 #include "client.h"
+#include "../trades_manager.h"
 #include "../utils/crypto/base64.h"
 #include "../utils/utils.h"
 #include "../utils/json.h"
@@ -184,23 +185,11 @@ namespace okex {
                             std::string fill_px = (*itr)["fillPx"].GetString();
                             std::string fill_sz = (*itr)["fillSz"].GetString();
 
-                            g_user_data.lock();
-                            auto scoped_exit = make_scope_exit([] { g_user_data.unlock(); });
-
-                            for (auto& grid : g_user_data.grid_strategy_.grids) {
-                                for (auto& ordersq : grid.orders_queue) {
-                                    for (auto& order : ordersq.orders) {
-                                        if (order.order_data.clordid == clordid) {
-                                            order.order_status = OrderStatus::Filled;
-                                            order.fill_px = fill_px;
-                                        }
-                                    }
-                                }
-                            }
+                            g_trades_man.updateOrderStatus(clordid, OrderStatus::Filled, fill_px);
                         }
                     }
+
                     g_user_data.grid_strategy_.dirty = false;
-                    g_user_data.updateGrid();
                     return true;
                 } catch (...) {
                 }
