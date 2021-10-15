@@ -24,6 +24,10 @@ if (MSVC)
     endforeach()
 endif()
 
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
+
+
 if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(platform x64)
 else()

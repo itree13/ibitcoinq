@@ -12,7 +12,7 @@ namespace okex {
             std::ifstream in(setting_filename);
             if (!in.is_open()) {
                 LOG(error) << "open " << setting_filename << " failed!";
-                return -1;
+                return false;
             }
 
             std::string json_content((std::istreambuf_iterator<char>(in)),

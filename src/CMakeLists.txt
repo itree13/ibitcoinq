@@ -14,7 +14,8 @@ if (MSVC)
 endif (MSVC)
 
 add_executable(ibitcoinq
-	${DIR_SRC}    )
+	${DIR_SRC})
+
 	
-target_link_libraries(ibitcoinq PUBLIC libcrypto libssl)
+target_link_libraries(ibitcoinq PUBLIC libssl32MT libcrypto32MT Crypt32)
 install(TARGETS ibitcoinq RUNTIME DESTINATION ibitcoinq)
