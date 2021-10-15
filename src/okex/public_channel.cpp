@@ -22,18 +22,20 @@ namespace okex {
             }
         );
 
-        req = Command::makeSubscribeTradesChannel(g_client.settings().ticket);
+        for (auto& ticket : g_client.settings().tickets) {
+            req = Command::makeSubscribeTickersChannel(ticket);
 
-        LOG(debug) << ">> subscribe trades. " << req.data;
+            LOG(debug) << ">> subscribe ticket. " << req.data;
 
-        this->sendCmd(std::move(req),
-            [this](Command::Response& resp) {
-                if (resp.code == 0)
-                    LOG(debug) << "<< subscribe ok. " << resp.data;
-                else
-                    throw std::runtime_error("<< subscribe failed! " + resp.msg);
-            }
-        );
+            this->sendCmd(std::move(req),
+                [this](Command::Response& resp) {
+                    if (resp.code == 0)
+                        LOG(debug) << "<< subscribe ok. " << resp.data;
+                    else
+                        throw std::runtime_error("<< subscribe failed! " + resp.msg);
+                }
+            );
+        }
 
         req = Command::makeSubscribeStatusChannel();
 
