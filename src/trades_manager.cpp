@@ -11,15 +11,15 @@ void TradesManager::updateBalance(const std::string& ccy, Balance::BalVal&& val)
 
 void TradesManager::updatePosition(const std::string& pos_id, Position::PosData&& val) {
     std::lock_guard lock(mutex_);
-    if (data.pos == "0")
+    if (val.pos == "0")
         position_.posval.erase(pos_id);
     else
-        position_.posval[pos_id] == std::move(val);
+        position_.posval[pos_id] = std::move(val);
 }
 
 void TradesManager::updateProductInfo(const std::string& inst_id, ProductInfo::Info&& val) {
     std::lock_guard lock(mutex_);
-    product_info_[inst_id] = std::move(val);
+    product_info_.data[inst_id] = std::move(val);
 }
 
 void TradesManager::updatePublicTradesData(PublicTradesData&& data) {

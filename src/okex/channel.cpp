@@ -1,5 +1,5 @@
 ﻿#include "channel.h"
-#include "../global.h"
+#include "client.h"
 #include "../utils/logger.h"
 #include "../utils/utils.h"
 #include <chrono>
@@ -44,9 +44,9 @@ namespace okex {
                 if (ws_session_->waitUtilConnected(std::chrono::seconds(10))) {
                     try {
                         if (required_login_) {
-                            auto req = Command::makeLoginReq(g_api_key, g_passphrase, g_secret);
+                            auto req = Command::makeLoginReq(g_client.settings().api_key, g_client.settings().passphrase, g_client.settings().secret);
 
-                            LOG(debug) << ">> login. api_key=" << g_api_key;
+                            LOG(debug) << ">> login. api_key=" << g_client.settings().api_key;
                             ws_session_->send(req.data);
 
                             std::string resp_data;
