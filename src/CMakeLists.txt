@@ -17,5 +17,5 @@ add_executable(ibitcoinq
 	${DIR_SRC})
 
 	
-target_link_libraries(ibitcoinq PUBLIC libssl32MT libcrypto32MT Crypt32)
+target_link_libraries(ibitcoinq PUBLIC libssl32MT$<$<CONFIG:Debug>:d> libcrypto32MT$<$<CONFIG:Debug>:d> Crypt32)
 install(TARGETS ibitcoinq RUNTIME DESTINATION ibitcoinq)
