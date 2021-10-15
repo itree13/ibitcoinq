@@ -189,7 +189,7 @@ namespace okex {
                         }
                     }
 
-                    g_user_data.grid_strategy_.dirty = false;
+                    g_trades_man.markDataDirty(false);
                     return true;
                 } catch (...) {
                 }

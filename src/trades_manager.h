@@ -100,6 +100,7 @@ public:
 
     void updateOrderStatus(const std::string& clordid, OrderStatus status, const std::string& fill_fx = "");
 
+    void markDataDirty(bool dirty=true);
 
 private:
     std::recursive_mutex mutex_;

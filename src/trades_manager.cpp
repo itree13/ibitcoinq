@@ -34,3 +34,7 @@ void TradesManager::updateOrderStatus(const std::string& clordid, OrderStatus st
     // g_user_data.removeFailedGridOrder(clordid);
 }
 
+void TradesManager::markDataDirty(bool dirty) {
+    // TODO
+}
+

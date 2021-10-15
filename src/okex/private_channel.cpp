@@ -1,6 +1,7 @@
 ﻿#include "private_channel.h"
 #include "client.h"
 #include "command.h"
+#include "../trades_manager.h"
 #include "../utils/logger.h"
 
 namespace okex {
@@ -53,13 +54,7 @@ namespace okex {
             }
         );
 
-        {
-            g_user_data.lock();
-            auto scoped_exit = make_scope_exit([] { g_user_data.unlock(); });
-            if (!g_user_data.grid_strategy_.grids.empty()) {
-                g_user_data.grid_strategy_.dirty = true;
-            }
-        }
+        g_trades_man.markDataDirty();
     }
 
 

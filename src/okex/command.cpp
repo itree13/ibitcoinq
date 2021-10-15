@@ -662,11 +662,7 @@ namespace okex {
                         for (auto itr = doc["data"].Begin(); itr != doc["data"].End(); ++itr) {
                             auto status = (*itr)["state"].GetString();
                             if ("completed" == status) {
-                                g_user_data.lock();
-                                auto scoped_exit = make_scope_exit([] { g_user_data.unlock(); });
-                                if (!g_user_data.grid_strategy_.grids.empty()) {
-                                    g_user_data.grid_strategy_.dirty = true;
-                                }
+                                g_trades_man.markDataDirty();
                             }
                         }
                     }
