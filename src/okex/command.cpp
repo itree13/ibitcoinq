@@ -14,10 +14,10 @@ namespace okex {
      "args":
       [
          {
-           "apiKey"    : "<api_key>",
-           "passphrase" :"<passphrase>",
-           "timestamp" :"<timestamp>",
-           "sign" :"<sign>"
+           "apiKey": "<api_key>",
+           "passphrase": "<passphrase>",
+           "timestamp": "<timestamp>",
+           "sign": "<sign>"
           }
        ]
     }
