@@ -15,8 +15,7 @@ int main() {
     ::SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED);
 #endif
 
-    okex::Client client;
-    if (!client.start("setting.conf"))
+    if (!okex::g_client.start("setting.conf"))
         return -1;
 
 

@@ -8,6 +8,8 @@ namespace okex {
 
 
     void PrivateChannel::onConnected() {
+        LOG(info) << "private channel connected.";
+
         /*auto req = Command::makeSubscriBalanceAndPositionsChannel();
 
         LOG(debug) << ">> subscribe bal&pos. " << req.data;
