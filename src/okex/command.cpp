@@ -654,6 +654,7 @@ namespace okex {
                             info.ask_sz = (*itr)["askSz"].GetString();
                             info.bid_px = (*itr)["bidPx"].GetString();
                             info.bid_sz = (*itr)["bidSz"].GetString();
+                            info.time_msec = std::strtoull((*itr)["ts"].GetString(), nullptr, 0);
 
                             g_trades_man.updatePublicTickersData(std::move(info));
                         }

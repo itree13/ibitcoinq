@@ -95,6 +95,7 @@ struct PublicTickersData {
     std::string ask_sz; // 卖一价对应的量
     std::string bid_px; // 买一价
     std::string bid_sz; // 买一价对应的数量
+    uint64_t time_msec;
 };
 
 
