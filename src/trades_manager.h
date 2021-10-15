@@ -87,6 +87,16 @@ struct PublicTradesData {
     uint64_t time_msec;
 };
 
+struct PublicTickersData {
+    std::string inst_id;
+    std::string last_px; // 最新成交价
+    std::string last_sz; // 最新成交的数量
+    std::string ask_px; // 卖一价
+    std::string ask_sz; // 卖一价对应的量
+    std::string bid_px; // 买一价
+    std::string bid_sz; // 买一价对应的数量
+};
+
 
 class TradesManager {
 public:
@@ -97,6 +107,8 @@ public:
     void updateProductInfo(const std::string& inst_id, ProductInfo::Info&& val);
 
     void updatePublicTradesData(PublicTradesData&& data);
+
+    void updatePublicTickersData(PublicTickersData&& data);
 
     void updateOrderStatus(const std::string& clordid, OrderStatus status, const std::string& fill_fx = "");
 

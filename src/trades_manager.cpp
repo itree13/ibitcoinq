@@ -30,6 +30,11 @@ void TradesManager::updatePublicTradesData(PublicTradesData&& data) {
         << info.sz << " \t" << info.px << "  \t" << toDateTimeStr(info.ts) << std::endl;*/
 }
 
+void TradesManager::updatePublicTickersData(PublicTickersData&& data) {
+    // TODO
+
+}
+
 void TradesManager::updateOrderStatus(const std::string& clordid, OrderStatus status, const std::string& fill_fx) {
     // g_user_data.removeFailedGridOrder(clordid);
 }

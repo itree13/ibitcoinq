@@ -644,6 +644,19 @@ namespace okex {
 
                             g_trades_man.updatePublicTradesData(std::move(info));
                         }
+                    } else if (channel == "tickers") {
+                        for (auto itr = doc["data"].Begin(); itr != doc["data"].End(); ++itr) {
+                            PublicTickersData info;
+                            info.inst_id = (*itr)["instId"].GetString();
+                            info.last_px = (*itr)["last"].GetString();
+                            info.last_sz = (*itr)["lastSz"].GetString();
+                            info.ask_px = (*itr)["askPx"].GetString();
+                            info.ask_sz = (*itr)["askSz"].GetString();
+                            info.bid_px = (*itr)["bidPx"].GetString();
+                            info.bid_sz = (*itr)["bidSz"].GetString();
+
+                            g_trades_man.updatePublicTickersData(std::move(info));
+                        }
                     } else if (channel == "instruments") {
                         for (auto itr = doc["data"].Begin(); itr != doc["data"].End(); ++itr) {
                             ProductInfo::Info info;
