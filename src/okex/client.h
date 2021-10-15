@@ -10,6 +10,7 @@ namespace okex {
     class Client {
     public:
         Client();
+        ~Client();
 
         bool start(const std::string& conf_file);
 
@@ -20,6 +21,7 @@ namespace okex {
     private:
         Settings settings_;
         net::io_context ioc_;
+        net::io_context::work worker_;
         std::unique_ptr<std::thread> io_thread_;
 
         std::shared_ptr<PublicChannel> public_channel_;
