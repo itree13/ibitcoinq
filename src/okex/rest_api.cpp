@@ -73,9 +73,9 @@ namespace okex {
         "lever" : "5",
         "mgnMode" : "isolated"
     } */
-    bool RestApi::setLeverage(int lever, std::string* errmsg) {
+    bool RestApi::setLeverage(const std::string& inst_id, int lever, std::string* errmsg) {
         rapidjson::Document doc(rapidjson::kObjectType);
-        doc.AddMember("instId", g_client.settings().ticket, doc.GetAllocator());
+        doc.AddMember("instId", inst_id, doc.GetAllocator());
         doc.AddMember("lever", std::to_string(lever), doc.GetAllocator());
         doc.AddMember("mgnMode", "cross", doc.GetAllocator());
         std::string reqdata = toString(doc);
@@ -125,9 +125,9 @@ namespace okex {
     //    return false;
     //}
 
-    bool RestApi::closePosition(OrderPosSide pos_side) {
+    bool RestApi::closePosition(const std::string& inst_id, OrderPosSide pos_side) {
         rapidjson::Document doc(rapidjson::kObjectType);
-        doc.AddMember("instId", g_client.settings().ticket, doc.GetAllocator());
+        doc.AddMember("instId", inst_id, doc.GetAllocator());
         doc.AddMember("mgnMode", "cross", doc.GetAllocator());
 
         std::string pos_side_str;
@@ -163,10 +163,10 @@ namespace okex {
         return false;
     }
 
-    bool RestApi::checkOrderFilled() {
+    bool RestApi::checkOrderFilled(const std::string& inst_id) {
         std::deque<std::pair<std::string, std::string> > params;
         params.emplace_back("instType", "SWAP");
-        params.emplace_back("instId", g_client.settings().ticket);
+        params.emplace_back("instId", inst_id);
         params.emplace_back("limit", "50");
 
         resp_type resp;
@@ -248,12 +248,12 @@ namespace okex {
         return false;
     }
 
-    bool RestApi::getMarkPriceHistoryCandles(const std::string& bar, std::deque<HistoryData>* out) {
+    bool RestApi::getMarkPriceHistoryCandles(const std::string& inst_id, const std::string& bar, std::deque<HistoryData>* out) {
         time_t after_time = 0;
         while (true) {
             try {
                 std::deque<std::pair<std::string, std::string> > params;
-                params.emplace_back("instId", g_client.settings().ticket);
+                params.emplace_back("instId", inst_id);
                 params.emplace_back("bar", bar);
 
                 if (after_time) {

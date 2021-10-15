@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../type.h"
+#include <vector>
 
 namespace okex {
 
@@ -31,7 +32,7 @@ namespace okex {
         std::string api_key;
         std::string passphrase;
         std::string secret;
-        std::string ticket;
+        std::vector<std::string> tickets;
         std::string enviorment;
         std::string socks_proxy;
 

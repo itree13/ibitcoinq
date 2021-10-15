@@ -5,7 +5,7 @@
   "secret": "TODO",
   "socks_proxy": "socks5://xxx.xxx.xxxx.xxxx:xxxx",
 
-  "ticket": "BTC-USDT-SWAP"
+  "tickets": "BTC-USDT-SWAP;ETH-USDT-SWAP"
 
 
 }

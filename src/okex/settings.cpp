@@ -1,6 +1,7 @@
 #include "settings.h"
 #include "../utils/logger.h"
 #include "../utils/json.h"
+#include "../utils/utils.h"
 #include <boost/dll.hpp>
 
 namespace okex {
@@ -25,15 +26,17 @@ namespace okex {
             this->api_key = doc["api_key"].GetString();
             this->passphrase = doc["passphrase"].GetString();
             this->secret = doc["secret"].GetString();
-            this->ticket = doc["ticket"].GetString();
+
+            auto tickets = doc["tickets"].GetString();            
+            splitString(tickets, this->tickets, ';');
 
             if (this->enviorment.empty() || this->api_key.empty() || this->secret.empty()) {
                 LOG(error) << "missing api_key or secret!";
                 return false;
             }
 
-            if (this->ticket.empty()) {
-                LOG(error) << "missing ticket!";
+            if (this->tickets.empty()) {
+                LOG(error) << "missing tickets!";
                 return false;
             }
 
