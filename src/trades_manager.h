@@ -118,6 +118,8 @@ public:
 
     void markDataDirty(bool dirty=true);
 
+    void process(const std::string& op);
+
 private:
     std::recursive_mutex mutex_;
     Balance balance_;                   // 余额

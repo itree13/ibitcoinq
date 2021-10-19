@@ -1,4 +1,5 @@
 #include "trades_manager.h"
+#include <iostream>
 
 
 TradesManager g_trades_man;
@@ -43,3 +44,14 @@ void TradesManager::markDataDirty(bool dirty) {
     // TODO
 }
 
+void TradesManager::process(const std::string& op) {
+    std::lock_guard lock(mutex_);
+    if (op == "show position") {
+        std::cout << position_;
+    } else if (op == "show balance") {
+        std::cout << balance_;
+    } else if (op == "show instruments") {
+        std::cout << product_info_;
+    } else if (op == "show tickers") {
+    }
+}

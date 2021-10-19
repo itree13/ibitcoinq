@@ -1,4 +1,5 @@
 #include "okex/client.h"
+#include "trades_manager.h"
 #include "utils/logger.h"
 #include "utils/concurrent_queue.h"
 #include "utils/utils.h"
@@ -22,11 +23,38 @@ static BOOL WINAPI handle_console_routine(DWORD ctrl_type) {
 #endif
 
 
+void loopProcess(std::function<void()> func) {
+    bool notiv;
+    while (g_console_break_noti.tryPop(&notiv));
+
+#ifdef _WIN32
+    HANDLE hout = ::GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO scr;
+    ::GetConsoleScreenBufferInfo(hout, &scr);
+#endif
+    do {
+#ifdef _WIN32
+        DWORD written;
+        ::FillConsoleOutputCharacterA(
+            hout, ' ', scr.dwSize.X * scr.dwSize.Y, scr.dwCursorPosition, &written
+        );
+        ::SetConsoleCursorPosition(hout, scr.dwCursorPosition);
+#endif
+        func();
+
+    } while (!g_console_break_noti.pop(&notiv, std::chrono::seconds(5)));
+
+#ifdef _WIN32
+    ::CloseHandle(hout);
+#endif
+}
+
+
 int main() {
     init_logger();
 
 #ifdef _WIN32
-    // prevent computer to sleep
+    // prevent computer from sleeping
     ::SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED);
 #endif
 
@@ -36,7 +64,6 @@ int main() {
 
 #ifdef _WIN32
     ::SetConsoleCtrlHandler(handle_console_routine, TRUE);
-    HANDLE hout = ::GetStdHandle(STD_OUTPUT_HANDLE);
 #endif
 
     for (;;) {
@@ -57,37 +84,17 @@ int main() {
             std::cout << "\tshow position" << std::endl;
             std::cout << "\tshow balance" << std::endl;
             std::cout << "\tshow instruments" << std::endl;
-        } else {
-
+            std::cout << "\tshow tickers" << std::endl;
+        } else if (op == "show position") {
+            g_trades_man.process(op);
+        } else if (op == "show balance") {
+            g_trades_man.process(op);
+        } else if (op == "show instruments") {
+            g_trades_man.process(op);
+        } else if (op == "show tickers") {
+            loopProcess([op] { g_trades_man.process(op); });
         }
 
-
-        // TODO
-
-
-        bool notiv;
-        while (g_console_break_noti.tryPop(&notiv));
-
-#ifdef _WIN32
-        CONSOLE_SCREEN_BUFFER_INFO scr;
-        ::GetConsoleScreenBufferInfo(hout, &scr);
-#endif
-        do {
-#ifdef _WIN32
-            DWORD written;
-            ::FillConsoleOutputCharacterA(
-                hout, ' ', scr.dwSize.X * scr.dwSize.Y, scr.dwCursorPosition, &written
-            );
-            ::SetConsoleCursorPosition(hout, scr.dwCursorPosition);
-#endif
-            // TODO
-
-        } while (!g_console_break_noti.pop(&notiv, std::chrono::seconds(5)));
     }
-
-#ifdef _WIN32
-    ::CloseHandle(hout);
-#endif
-
     return 0;
 }
