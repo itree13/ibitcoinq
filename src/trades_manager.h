@@ -1,26 +1,35 @@
 ﻿#include "utils/logger.h"
 #include "utils/utils.h"
 #include "utils/concurrent_queue.h"
+#include "utils/format_table.h"
 #include <map>
 #include <ostream>
+#include <iomanip>
 #include <mutex>
 
 struct Balance {
     struct BalVal {
         std::string eq;
         std::string cash_bal;
-        std::string upl;
+        std::string upl; // 未实现收益
         std::string avail_eq;
     };
     std::map<std::string /* ccy */, BalVal> balval;
     bool inited = false;
 
     friend std::ostream& operator << (std::ostream& o, const Balance& t) {
-        o << "=====Balance=====" << std::endl;
+        FormatTable table("Balance");
+        table.addCol("ccy", 10, FormatTable::Align::Left)
+            .addCol("eq", 10)
+            .addCol("avail_eq", 10)
+            .addCol("cash", 10)
+            .addCol("upl", 10);
+
         for (auto& v : t.balval) {
-            o << "  " << v.first << " \teq: " << v.second.eq << ", avail: " << v.second.avail_eq
-                << ", cash: " << v.second.cash_bal << ", upl: " << v.second.upl << std::endl;
+            table << v.first << v.second.eq << v.second.avail_eq << v.second.cash_bal << v.second.upl;
         }
+
+        o << table;
         return o;
     }
 };
