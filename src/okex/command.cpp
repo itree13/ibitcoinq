@@ -646,7 +646,7 @@ namespace okex {
                         }
                     } else if (channel == "tickers") {
                         for (auto itr = doc["data"].Begin(); itr != doc["data"].End(); ++itr) {
-                            PublicTickersData info;
+                            PublicTickers::Data info;
                             info.inst_id = (*itr)["instId"].GetString();
                             info.last_px = (*itr)["last"].GetString();
                             info.last_sz = (*itr)["lastSz"].GetString();
@@ -656,7 +656,7 @@ namespace okex {
                             info.bid_sz = (*itr)["bidSz"].GetString();
                             info.time_msec = std::strtoull((*itr)["ts"].GetString(), nullptr, 0);
 
-                            g_trades_man.updatePublicTickersData(std::move(info));
+                            g_trades_man.updatePublicTickers(std::move(info));
                         }
                     } else if (channel == "instruments") {
                         for (auto itr = doc["data"].Begin(); itr != doc["data"].End(); ++itr) {

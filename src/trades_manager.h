@@ -63,7 +63,7 @@ struct ProductInfo {
         std::string ct_val;
         std::string ct_multi;
     };
-    std::map<std::string, Info> data;
+    std::map<std::string /* inst_id */, Info> data;
 
     friend std::ostream& operator << (std::ostream& o, const ProductInfo& t) {
         o << "=====Instruments=====" << std::endl;
@@ -87,15 +87,18 @@ struct PublicTradesData {
     uint64_t time_msec;
 };
 
-struct PublicTickersData {
-    std::string inst_id;
-    std::string last_px; // 最新成交价
-    std::string last_sz; // 最新成交的数量
-    std::string ask_px; // 卖一价
-    std::string ask_sz; // 卖一价对应的量
-    std::string bid_px; // 买一价
-    std::string bid_sz; // 买一价对应的数量
-    uint64_t time_msec;
+struct PublicTickers {
+    struct Data {
+        std::string inst_id;
+        std::string last_px; // 最新成交价
+        std::string last_sz; // 最新成交的数量
+        std::string ask_px; // 卖一价
+        std::string ask_sz; // 卖一价对应的量
+        std::string bid_px; // 买一价
+        std::string bid_sz; // 买一价对应的量
+        uint64_t time_msec;
+    };
+    std::map<std::string /* inst_id */, Data> tickers;
 };
 
 
@@ -107,19 +110,20 @@ public:
 
     void updateProductInfo(const std::string& inst_id, ProductInfo::Info&& val);
 
-    void updatePublicTradesData(PublicTradesData&& data);
-
-    void updatePublicTickersData(PublicTickersData&& data);
+    void updatePublicTickers(PublicTickers::Data&& data);
 
     void updateOrderStatus(const std::string& clordid, OrderStatus status, const std::string& fill_fx = "");
+
+    void updatePublicTradesData(PublicTradesData&& data);
 
     void markDataDirty(bool dirty=true);
 
 private:
     std::recursive_mutex mutex_;
-    Balance balance_;           // 余额
-    Position position_;         // 仓位
-    ProductInfo product_info_;  // 产品
+    Balance balance_;                   // 余额
+    Position position_;                 // 仓位
+    ProductInfo product_info_;          // 产品信息
+    PublicTickers tickers_data_;    // 行情
 };
 
 

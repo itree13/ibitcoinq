@@ -22,21 +22,21 @@ void TradesManager::updateProductInfo(const std::string& inst_id, ProductInfo::I
     product_info_.data[inst_id] = std::move(val);
 }
 
+void TradesManager::updatePublicTickers(PublicTickers::Data&& data) {
+    std::lock_guard lock(mutex_);
+    tickers_data_.tickers[data.inst_id] = std::move(data);
+}
+
+void TradesManager::updateOrderStatus(const std::string& clordid, OrderStatus status, const std::string& fill_fx) {
+    // g_user_data.removeFailedGridOrder(clordid);
+}
+
 void TradesManager::updatePublicTradesData(PublicTradesData&& data) {
     // TODO
 
    /* if (g_show_trades)
         std::cout << "  - " << info.inst_id << " \t" << info.pos_side << " \t"
         << info.sz << " \t" << info.px << "  \t" << toDateTimeStr(info.ts) << std::endl;*/
-}
-
-void TradesManager::updatePublicTickersData(PublicTickersData&& data) {
-    // TODO
-
-}
-
-void TradesManager::updateOrderStatus(const std::string& clordid, OrderStatus status, const std::string& fill_fx) {
-    // g_user_data.removeFailedGridOrder(clordid);
 }
 
 void TradesManager::markDataDirty(bool dirty) {

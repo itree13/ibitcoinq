@@ -52,6 +52,15 @@ int main() {
         }
         trimString(op);
 
+        if (op == "help") {
+            std::cout << "commands:" << std::endl;
+            std::cout << "\tshow position" << std::endl;
+            std::cout << "\tshow balance" << std::endl;
+            std::cout << "\tshow instruments" << std::endl;
+        } else {
+
+        }
+
 
         // TODO
 
