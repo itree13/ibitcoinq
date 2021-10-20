@@ -160,7 +160,7 @@ private:
     Balance balance_;                   // 余额
     Position position_;                 // 仓位
     ProductInfo product_info_;          // 产品信息
-    PublicTickers tickers_data_;    // 行情
+    PublicTickers tickers_data_;        // 行情
 };
 
 
