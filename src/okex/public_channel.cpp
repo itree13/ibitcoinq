@@ -25,7 +25,7 @@ namespace okex {
         for (auto& ticket : g_client.settings().tickets) {
             req = Command::makeSubscribeTickersChannel(ticket);
 
-            LOG(debug) << ">> subscribe ticket. " << req.data;
+            LOG(debug) << ">> subscribe tickers. " << req.data;
 
             this->sendCmd(std::move(req),
                 [this](Command::Response& resp) {

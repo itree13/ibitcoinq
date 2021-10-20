@@ -9,10 +9,10 @@
 
 struct Balance {
     struct BalVal {
-        std::string eq;
-        std::string cash_bal;
-        std::string upl; // 未实现收益
-        std::string avail_eq;
+        std::string eq;         // 币种总权益
+        std::string cash_bal;   // 币种余额
+        std::string upl;        // 未实现收益
+        std::string avail_eq;   // 可用保证金
     };
     std::map<std::string /* ccy */, BalVal> balval;
     bool inited = false;
@@ -21,16 +21,14 @@ struct Balance {
         FormatTable table("Balance");
         table.addCol("ccy", 10, FormatTable::Align::Left)
             .addCol("eq", 10)
-            .addCol("avail_eq", 10)
+            .addCol("avail eq", 10)
             .addCol("cash", 10)
             .addCol("upl", 10);
 
         for (auto& v : t.balval) {
             table << v.first << v.second.eq << v.second.avail_eq << v.second.cash_bal << v.second.upl;
         }
-
-        o << table;
-        return o;
+        return o << table;
     }
 };
 
@@ -49,15 +47,21 @@ struct Position {
     std::map<std::string /*pos_id*/, PosData> posval;
 
     friend std::ostream& operator << (std::ostream& o, const Position& t) {
-        o << "=====Position=====" << std::endl;
+        FormatTable table("Position");
+        table.addCol("pos", 4, FormatTable::Align::Left)
+            .addCol("inst id", 10)
+            .addCol("side", 4)
+            .addCol("pos", 4)
+            .addCol("avg_px", 12)
+            .addCol("ccy", 6)
+            .addCol("time", 10);
 
         for (auto& pos : t.posval) {
             auto& v = pos.second;
-            o << "  - pos: " << pos.first << " " << pos.second.inst_id << "  " << pos.second.inst_type << std::endl;
-            o << "    " << v.pos_side << " \t" << v.pos << " \t" << v.avg_px << " \t"
-                << v.ccy << "\t" << toDateTimeStr(v.utime_msec) << std::endl;
+            table << pos.first << pos.second.inst_id << v.pos_side << v.pos << v.avg_px
+                << v.ccy << toDateTimeStr(v.utime_msec);
         }
-        return o;
+        return o << table;
     }
 };
 
@@ -69,21 +73,26 @@ struct ProductInfo {
         std::string min_sz;
         std::string tick_sz;
         std::string settle_ccy;
-        std::string ct_val;
-        std::string ct_multi;
+        std::string ct_val; // 合约面值
+        std::string ct_multi; // 合约乘数
     };
     std::map<std::string /* inst_id */, Info> data;
 
     friend std::ostream& operator << (std::ostream& o, const ProductInfo& t) {
-        o << "=====Instruments=====" << std::endl;
+        FormatTable table("Instruments");
+        table.addCol("inst id", 16, FormatTable::Align::Left)
+            .addCol("ccy", 6)
+            .addCol("lot sz", 6)
+            .addCol("min sz", 6)
+            .addCol("tick siz", 10)
+            .addCol("ct val", 6)
+            .addCol("ct mul", 6);
 
-        for (auto& product : t.data) {
-            auto& v = product.second;
-            o << "  - " << product.first << " " << v.inst_type << " " << v.settle_ccy << std::endl;
-            o << "    lot_sz:" << v.lot_sz << " min_sz:" << v.min_sz << " tick_siz:" << v.tick_sz
-                << " ct_val:" << v.ct_val << std::endl;
+        for (auto& pos : t.data) {
+            auto& v = pos.second;
+            table << v.inst_id << v.settle_ccy << v.lot_sz << v.min_sz << v.tick_sz << v.ct_val << v.ct_multi;
         }
-        return o;
+        return o << table;
     }
 };
 

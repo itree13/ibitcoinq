@@ -43,10 +43,6 @@ void loopProcess(std::function<void()> func) {
         func();
 
     } while (!g_console_break_noti.pop(&notiv, std::chrono::seconds(5)));
-
-#ifdef _WIN32
-    ::CloseHandle(hout);
-#endif
 }
 
 
