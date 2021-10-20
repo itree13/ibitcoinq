@@ -19,11 +19,11 @@ struct Balance {
 
     friend std::ostream& operator << (std::ostream& o, const Balance& t) {
         FormatTable table("Balance");
-        table.addCol("ccy", 10, FormatTable::Align::Left)
+        table.addCol("ccy", 8, FormatTable::Align::Left)
             .addCol("eq", 10)
             .addCol("avail eq", 10)
             .addCol("cash", 10)
-            .addCol("upl", 10);
+            .addCol("upl", 4);
 
         for (auto& v : t.balval) {
             table << v.first << v.second.eq << v.second.avail_eq << v.second.cash_bal << v.second.upl;
@@ -49,12 +49,12 @@ struct Position {
     friend std::ostream& operator << (std::ostream& o, const Position& t) {
         FormatTable table("Position");
         table.addCol("pos", 4, FormatTable::Align::Left)
-            .addCol("inst id", 10)
+            .addCol("inst id", 16)
             .addCol("side", 4)
             .addCol("pos", 4)
-            .addCol("avg_px", 12)
+            .addCol("avg_px", 10)
             .addCol("ccy", 6)
-            .addCol("time", 10);
+            .addCol("time", 8);
 
         for (auto& pos : t.posval) {
             auto& v = pos.second;
@@ -84,7 +84,7 @@ struct ProductInfo {
             .addCol("ccy", 6)
             .addCol("lot sz", 6)
             .addCol("min sz", 6)
-            .addCol("tick siz", 10)
+            .addCol("tick sz", 10)
             .addCol("ct val", 6)
             .addCol("ct mul", 6);
 
@@ -114,9 +114,26 @@ struct PublicTickers {
         std::string ask_sz; // 卖一价对应的量
         std::string bid_px; // 买一价
         std::string bid_sz; // 买一价对应的量
-        uint64_t time_msec;
+        uint64_t utime_msec;
     };
     std::map<std::string /* inst_id */, Data> tickers;
+
+    friend std::ostream& operator << (std::ostream& o, const PublicTickers& t) {
+        FormatTable table("Tickers");
+        table.addCol("inst id", 16, FormatTable::Align::Left)
+            .addCol("last px", 10)
+            .addCol("sz", 4)
+            .addCol("ask px", 10)
+            .addCol("sz", 4)
+            .addCol("bid px", 10)
+            .addCol("sz", 4);
+
+        for (auto& pos : t.tickers) {
+            auto& v = pos.second;
+            table << pos.first << v.last_px << v.last_sz << v.ask_px << v.ask_sz << v.bid_px << v.bid_sz;
+        }
+        return o << table;
+    }
 };
 
 

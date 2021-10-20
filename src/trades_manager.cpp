@@ -53,5 +53,6 @@ void TradesManager::process(const std::string& op) {
     } else if (op == "show instruments") {
         std::cout << product_info_;
     } else if (op == "show tickers") {
+        std::cout << tickers_data_;
     }
 }
